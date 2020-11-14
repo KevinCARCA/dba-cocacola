@@ -1,0 +1,32 @@
+CREATE TABLE cliente (
+	nit_cliente VARCHAR(50) PRIMARY KEY,
+	nombre VARCHAR(100),
+	apellido VARCHAR(100),
+	direccion VARCHAR(100),
+	telefono INT(11),
+	correo VARCHAR(100)	
+);
+
+
+CREATE TABLE venta (
+	id_venta INT(11) PRIMARY KEY,
+	nit_cliente VARCHAR(50),
+	nombre_cliente VARCHAR(100),
+	direccion_cliente VARCHAR(200),
+	fecha_venta VARCHAR(10),
+	total_venta DOUBLE(22,0),
+	login_name VARCHAR(50) 	
+);
+
+
+
+create procedure ENCABEZADO_FACT
+AS
+SELECT c.nit_cliente, c.nombre, c.apellido, c.direccion FROM cliente c;
+GO
+
+create procedure DETALLE_FACT
+AS
+SELECT dv.id_venta, p.descripcion, dv.cantidad, dv.total_producto FROM detalle_venta dv, producto p, venta v 
+WHERE dv.id_producto = p.id_producto AND dv.id_venta = v.id_venta; 
+GO
